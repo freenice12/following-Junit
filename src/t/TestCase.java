@@ -2,7 +2,7 @@ package t;
 
 import java.lang.reflect.Method;
 
-public class TestCase {
+public class TestCase extends Assert implements Test {
 
     private String name;
 
@@ -14,6 +14,7 @@ public class TestCase {
         this.name = name;
     }
 
+    @Override
     public void run(final TestResult result) {
         result.testStarted();
         setUp();
@@ -38,6 +39,21 @@ public class TestCase {
 
     protected void setUp() {
 
+    }
+
+    public static void assertEquals(final Object expected,
+            final Object actual) {
+        if (expected == null && actual == null)
+            return;
+
+        if (expected != null && expected.equals(actual))
+            return;
+
+        fail();
+    }
+
+    public static void fail() {
+        throw new AssertionFailedError();
     }
 
 }
